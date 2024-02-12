@@ -46,6 +46,7 @@ view: order_items {
 
   dimension: phone {
     type: string
+    description: "The unique identifier used to identify groups who belong to a client. (Version: @{version_number})"
     sql: ${TABLE}.phone ;;
   }
 

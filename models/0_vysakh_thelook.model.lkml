@@ -28,6 +28,16 @@ explore: billion_orders {
     sql_on: ${billion_orders.order_id} = ${orders.id} ;;
     relationship: many_to_one
   }
+  sql_always_where: {% if ${orders.user_id} ==  _user_attributes['uservzeid']
+    or '1912546723,8549151046' contains _user_attributes['uservzeid']  %}
+
+1=1
+{% else %}
+${orders.user_id}  like %{{ _user_attributes['uservzeid'] }}%
+
+
+ {% endif %} ;;
+
 
   join: users {
     type: left_outer

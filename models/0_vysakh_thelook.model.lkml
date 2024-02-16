@@ -3,6 +3,8 @@ connection: "thelook"
 
 # include all the views
 include: "/views/**/*.view.lkml"
+#include: "/extended/Mark1.explore.lkml"
+include: "/Explore/Base_explore.explore.lkml"
 
 # Datagroups define a caching policy for an Explore. To learn more,
 # use the Quick Help panel on the right to see documentation.
@@ -110,11 +112,13 @@ explore: incremental_pdts_test {}
 explore: ints {}
 
 explore: inventory_items {
+  sql_always_where: {% if inventory_items.created_date._in_query %}, current_date() {% endif %};;
   join: products {
     type: left_outer
     sql_on: ${inventory_items.product_id} = ${products.id} ;;
     relationship: many_to_one
   }
+
 }
 
 explore: orders {
@@ -241,7 +245,7 @@ explore: test {}
 
 explore: test_space_in_column_name {}
 
-explore: users {}
+#explore: users {}
 
 explore: user_data {
   join: users {

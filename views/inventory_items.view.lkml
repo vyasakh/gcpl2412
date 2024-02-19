@@ -27,13 +27,22 @@ view: inventory_items {
   # Click on the type parameter to see all the options in the Quick Help panel on the right.
 
   measure: total_cost {
-    type: sum
-    sql: ${cost} ;;  }
+    type: number
+    sql: sum(${cost}) ;;
+    value_format: "[>=0]$#,##0.00,,\"M\";[<-0]($#,##0.00,,\"M)\""}
   measure: average_cost {
-    type: average
-    sql: ${cost} ;;  }
+    type: number
+    sql: sum(${cost}) ;;
+
+    value_format: "[>=1000000]$#,##0.00,,\"M\"; [>=100]$0.00,\"K\"; $0.0"
+    }
   # Dates and timestamps can be represented in Looker using a dimension group of type: time.
   # Looker converts dates and timestamps to the specified timeframes within the dimension group.
+ measure: sum {
+   type: sum_distinct
+  sql: ${cost} ;;
+ }
+
 
   dimension_group: created {
     type: time
@@ -54,6 +63,13 @@ view: inventory_items {
   }
   measure: count {
     type: count
+
     drill_fields: [id, products.id, products.item_name, order_items.count, order_items_vijaya.count]
+
+  }
+  measure: test {
+    type: number
+    sql: (${sum}-${cost})/nullif( ${cost},0) ;;
+    value_format_name: percent_1
   }
 }

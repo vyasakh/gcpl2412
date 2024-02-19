@@ -27,11 +27,24 @@ view: users {
   # Click on the type parameter to see all the options in the Quick Help panel on the right.
 
   measure: total_age {
-    type: sum
-    sql: ${age} ;;  }
+    type: number
+
+    sql: (${age}- ${count})/ nullif(${count},0) ;;
+
+    value_format_name: percent_1}
   measure: average_age {
-    type: average
-    sql: ${age} ;;  }
+    type: number
+
+    sql: (${age}- ${count})*10000 ;;
+
+    value_format_name: decimal_0
+    }
+
+    measure: percentage {
+      type: number
+      sql: ${age}/nullif(${count},0) ;;
+      value_format_name: percent_1
+    }
 
   dimension: city {
     type: string
@@ -89,15 +102,15 @@ view: users {
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
-	id,
-	first_name,
-	last_name,
-	events.count,
-	orders.count,
-	saralooker.count,
-	sindhu.count,
-	user_data.count
-	]
+  id,
+  first_name,
+  last_name,
+  events.count,
+  orders.count,
+  saralooker.count,
+  sindhu.count,
+  user_data.count
+  ]
   }
 
 }

@@ -30,6 +30,11 @@ view: orders {
     sql: ${TABLE}.status ;;
   }
 
+  dimension: yesno {
+    type: yesno
+    sql: ${status} ;;
+  }
+
   dimension: user_id {
     type: number
     # hidden: yes
@@ -40,21 +45,39 @@ view: orders {
     drill_fields: [detail*]
   }
 
+  measure: sum {
+    type: sum_distinct
+    sql: ${user_id} ;;
+    value_format: "[>=1000000]\€0.00,,\"M\";[>=1000]\€0.00,\"K\";\€0.00"
+  }
+
+  measure: test_20 {
+    type: number
+    sql: ${sum} / nullif(${count},0) ;;
+    value_format: "[>=1000]$0.00,\"K\"; [>=0]$0; -$0"
+  }
+
+  measure: test_21 {
+    type: number
+    sql: (${id}- ${test_20}) / nullif(${test_20},0) ;;
+    value_format_name: percent_1
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
-	id,
-	users.id,
-	users.first_name,
-	users.last_name,
-	billion_orders.count,
-	fakeorders.count,
-	hundred_million_orders.count,
-	hundred_million_orders_wide.count,
-	order_items.count,
-	order_items_vijaya.count,
-	ten_million_orders.count
-	]
+  id,
+  users.id,
+  users.first_name,
+  users.last_name,
+  billion_orders.count,
+  fakeorders.count,
+  hundred_million_orders.count,
+  hundred_million_orders_wide.count,
+  order_items.count,
+  order_items_vijaya.count,
+  ten_million_orders.count
+  ]
   }
 
 }

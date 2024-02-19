@@ -47,17 +47,54 @@ view: products {
     sql: ${TABLE}.retail_price ;;
   }
 
+  measure: test_9 {
+    type: number
+    sql: (${retail_price}-${rank}) * 10000 ;;
+    value_format_name: decimal_0
+  }
+
+  measure: test_10 {
+    type: number
+    sql: coalesce(${retail_price}/nullif(${retail_price},0),0) ;;
+    value_format_name: percent_1
+    html: {% if value == 0 %}
+          {% elsif value <> 0 %} {{rendered_value}}
+          {% endif %};;
+  }
+
+  measure: test_11 {
+    type: number
+    sql: coalesce((${retail_price}-${rank})*10000,0) ;;
+    value_format_name: decimal_0
+    html: {% if value == 0 %}
+          {% elsif value <> 0 %} {{rendered_value}}
+          {% endif %};;
+
+  }
+
   # A measure is a field that uses a SQL aggregate function. Here are defined sum and average
   # measures for this dimension, but you can also add measures of many different aggregates.
   # Click on the type parameter to see all the options in the Quick Help panel on the right.
 
   measure: total_retail_price {
-    type: sum
-    sql: ${retail_price} ;;  }
+    type: number
+    sql: sum(${retail_price}) ;;
+    value_format: "[>=1000000]$#,##0.00,,\"M\"; [>=100]$0.00,\"K\"; $0.0"
+    html:
+    {% if value > 0 %} {{rendered_value}}
+    {% elsif value <= 0 %} (${{value | divided_by: 1000000 | round: 2}}M)
+    {% endif %};;}
   measure: average_retail_price {
-    type: average
-    sql: ${retail_price} ;;  }
+    type: number
+    sql: ${retail_price} ;;
+    value_format: "[>=1000000]$#,##0.00,,\"M\"; [>=100]$0.00,\"K\"; $0.0"
+    }
 
+  measure: rate {
+    type: number
+    sql: ${total_retail_price}/nullif(${average_retail_price},0) ;;
+    value_format_name: percent_2
+  }
   dimension: sku {
     type: string
     sql: ${TABLE}.sku ;;
@@ -65,5 +102,47 @@ view: products {
   measure: count {
     type: count
     drill_fields: [id, item_name, inventory_items.count]
+    value_format_name: percent_1
+  }
+
+  measure: test_12 {
+    type: number
+    sql: sum(${retail_price}) ;;
+    value_format: "[>=1000000]$#,##0.00,,\"M\"; [>=100]$0.00,\"K\"; $0.0"
+  }
+
+  measure: test_13 {
+    type: number
+    sql: (${retail_price}) ;;
+    value_format: "[>=1000000]0.00,,\"M\"; [>=1000]0.00,\"K\"; 0"
+  }
+
+  measure: test_14 {
+    type: number
+     sql: (${retail_price}- ${total_retail_price} )/ nullif(${total_retail_price},0) ;;
+    value_format_name: percent_1
+    }
+  measure: test_15 {
+    type: number
+    sql: (${rank}- ${total_retail_price} )/ nullif(${total_retail_price},0) ;;
+    value_format_name: percent_1
+  }
+
+  measure: test_16 {
+    type: number
+    sql: (${rank}- ${average_retail_price} )/ nullif(${average_retail_price},0) ;;
+    value_format_name: percent_1
+  }
+
+  measure: test_22 {
+    type: number
+    sql: (${id}- ${count}) / nullif(${count},0) ;;
+    value_format_name: percent_1
+  }
+
+  measure: test_23 {
+    type: number
+    sql: (${id}- ${test_15}) / nullif(${test_15},0) ;;
+    value_format_name: percent_1
   }
 }

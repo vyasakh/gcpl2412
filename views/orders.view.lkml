@@ -13,6 +13,19 @@ view: orders {
     type: number
     sql: ${TABLE}.id ;;
   }
+
+  dimension: Duplicates_Test_Dim1 {
+    type: string
+    sql: ${TABLE}.status ;;
+    html:
+    {% if value == "COMPLETED" %}
+     Hello
+      {% elsif value == "CANCELLED" %}
+      Hello
+      {% else %}
+      Hello
+    {% endif %} ;;
+  }
   # Dates and timestamps can be represented in Looker using a dimension group of type: time.
   # Looker converts dates and timestamps to the specified timeframes within the dimension group.
 
@@ -41,6 +54,8 @@ view: orders {
     type: count
     drill_fields: [detail*]
   }
+
+
 
   # ----- Sets of fields for drilling ------
   set: detail {

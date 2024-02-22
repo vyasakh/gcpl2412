@@ -139,6 +139,11 @@ view: orders {
     drill_fields: [detail*]
   }
 
+  measure: count1{
+    type: count
+    drill_fields: [detail*]
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [

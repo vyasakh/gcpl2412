@@ -36,6 +36,11 @@ view: orders {
     sql: ${TABLE}.status ;;
   }
 
+  dimension: status2 {
+    type: string
+    sql: ${TABLE}.status ;;
+  }
+
   # dimension: date1 {
   #   type: string
 

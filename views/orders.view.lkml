@@ -19,7 +19,7 @@ view: orders {
   dimension_group: created {
     type: time
 
-    timeframes: [raw, time, date, week, month, quarter, fiscal_year, day_of_week]
+    timeframes: [raw, time,date, week, month, quarter, fiscal_year, day_of_week,year]
 
     sql: ${TABLE}.created_at ;;
   }
@@ -35,6 +35,99 @@ view: orders {
     type: string
     sql: ${TABLE}.status ;;
   }
+
+  # dimension: date1 {
+  #   type: string
+
+  #   sql:SELECT DATE("2017-06-15");;
+  # }
+
+  dimension: date_date {
+    type: date
+    sql: "2024-05-13";;
+  }
+
+  parameter: date_granularity {
+    type: unquoted
+    allowed_value: {
+      label: " Date"
+      value: "date"
+    }
+    allowed_value: {
+      label: " Month"
+      value: "month"
+    }
+
+    allowed_value: {
+      label: " Year"
+      value: "year"
+    }
+
+    allowed_value: {
+      label: " Quarter"
+      value: "quarter"
+    }
+    }
+
+
+    parameter: date_granularity1 {
+      type: unquoted
+      allowed_value: {
+        label: " Date"
+        value: "date"
+      }
+      allowed_value: {
+        label: " Month"
+        value: "month"
+      }
+
+      allowed_value: {
+        label: " Year"
+        value: "year"
+      }
+
+
+    allowed_value: {
+      label: " Quarter"
+      value: "quarter"
+    }
+ }
+
+  dimension: date {
+    sql:
+    {% if date_granularity._parameter_value == 'year' %}
+      ${created_year}
+    {% elsif date_granularity._parameter_value == 'month' %}
+      ${created_month}
+      {% elsif date_granularity._parameter_value == 'quarter' %}
+      ${created_quarter}
+      {% elsif date_granularity._parameter_value == 'date' %}
+      ${created_date}
+    {% else %}
+      ${created_date}
+    {% endif %};;
+  }
+
+    dimension: date1 {
+      sql:
+          {% if date_granularity1._parameter_value == 'year' %}
+            ${created_year}
+          {% elsif date_granularity1._parameter_value == 'month' %}
+            ${created_month}
+            {% elsif date_granularity1._parameter_value == 'quarter' %}
+            ${created_quarter}
+            {% elsif date_granularity1._parameter_value == 'date' %}
+            ${created_date}
+          {% else %}
+            ${created_date}
+          {% endif %};;
+    }
+
+
+
+
+
+
 
   dimension: user_id {
     type: number

@@ -31,7 +31,7 @@
       Created Date: orders.created_date
     row: 0
     col: 0
-    width: 24
+    width: 23
     height: 12
   - title: new 2
     name: new 2

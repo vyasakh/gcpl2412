@@ -31,8 +31,8 @@
       Created Date: orders.created_date
     row: 0
     col: 0
-    width: 23
-    height: 12
+    width: 30
+    height: 15
   - title: new 2
     name: new 2
     model: 0_vysakh_thelook

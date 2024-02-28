@@ -176,8 +176,9 @@ explore: order_items_vijaya {
 
   join: users {
     type: left_outer
-    sql_on: ${orders.user_id} = ${users.id} ;;
     relationship: many_to_one
+    sql_on: ${orders.user_id} = ${users.id} and ${orders.created_month} = ${users.created_month} ;;
+    # relationship: many_to_one
   }
 
   join: products {

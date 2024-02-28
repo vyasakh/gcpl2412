@@ -3,7 +3,7 @@ connection: "thelook"
 
 # include all the views
 include: "/views/**/*.view.lkml"
-include: "/test.explore.lkml"
+include: "/test_count_.dashboard.lookml"
 
 # Datagroups define a caching policy for an Explore. To learn more,
 # use the Quick Help panel on the right to see documentation.
@@ -28,6 +28,16 @@ explore: billion_orders {
     sql_on: ${billion_orders.order_id} = ${orders.id} ;;
     relationship: many_to_one
   }
+  sql_always_where: {% if ${orders.user_id} ==  _user_attributes['uservzeid']
+    or '1912546723,8549151046' contains _user_attributes['uservzeid']  %}
+
+1=1
+{% else %}
+${orders.user_id}  like %{{ _user_attributes['uservzeid'] }}%
+
+
+ {% endif %} ;;
+
 
   join: users {
     type: left_outer
@@ -155,8 +165,9 @@ explore: order_items_vijaya {
 
   join: users {
     type: left_outer
-    sql_on: ${orders.user_id} = ${users.id} ;;
     relationship: many_to_one
+    sql_on: ${orders.user_id} = ${users.id} and ${orders.created_month} = ${users.created_month} ;;
+    # relationship: many_to_one
   }
 
   join: products {

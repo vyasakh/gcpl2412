@@ -5,7 +5,7 @@ connection: "thelook"
 include: "/views/**/*.view.lkml"
 include: "/test_count_.dashboard.lookml"
 include: "/lookmldashboard_test1.dashboard.lookml"
-#comment
+#comments
 
 # Datagroups define a caching policy for an Explore. To learn more,
 # use the Quick Help panel on the right to see documentation.

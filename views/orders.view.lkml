@@ -26,6 +26,21 @@ view: orders {
       Hello
     {% endif %} ;;
   }
+
+
+  dimension: Test_Arabic {
+    type: string
+    sql: ${TABLE}.status ;;
+    html:
+    {% if value == "COMPLETED" %}
+     مرحبًا أيها المنظر! مرحبًا بعودتك
+      {% elsif value == "CANCELLED" %}
+      إعدادات الترجمة للغة العربية في ملف النموذج
+
+      {% else %}
+     إعدادات الترجمة للغة العربية في ملف النموذج
+    {% endif %} ;;
+  }
   # Dates and timestamps can be represented in Looker using a dimension group of type: time.
   # Looker converts dates and timestamps to the specified timeframes within the dimension group.
 

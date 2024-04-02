@@ -17,7 +17,8 @@ view: employees {
   }
 
   dimension: manager {
-    type: number
+    type:string
+
     sql: ${TABLE}.Manager ;;
   }
 

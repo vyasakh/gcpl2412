@@ -23,13 +23,20 @@ view: orders {
 
     sql: ${TABLE}.created_at ;;
   }
-    # Here's what a typical dimension looks like in LookML.
-    # A dimension is a groupable field that can be used to filter query results.
-    # This dimension will be called "Status" in Explore.
+   measure: times {
+     type: median
+    sql: ${created_time}/ 86400.0 ;;
+    value_format: "hh:mm:ss"
+    html:  {{ rendered_value | Time: "Time %T (%X)" }};;
 
-  dimension: status {
-    type: string
-    sql: ${TABLE}.status ;;
+
+    }
+  dimension: week_formatted {
+    group_label: "Created date"
+    label: "Week"
+    type: date_raw
+    sql: ${created_time} ;;
+    html: {{ rendered_value | date: "Week %U (%b %d)" }};;
   }
   dimension: status1 {
     type: string
@@ -127,6 +134,8 @@ view: orders {
             ${created_date}
           {% endif %};;
     }
+
+
 
 
 

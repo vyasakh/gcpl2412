@@ -44,11 +44,7 @@ view: order_items {
     sql: ${TABLE}.order_id ;;
   }
 
-  dimension: phone {
-    type: string
-    description: "The unique identifier used to identify groups who belong to a client. (Version: @{version_number})"
-    sql: ${TABLE}.phone ;;
-  }
+
 
   dimension: phones {
     type: string
@@ -61,6 +57,12 @@ view: order_items {
     type: time
     timeframes: [raw, time, date, week, month, quarter, year]
     sql: ${TABLE}.returned_at ;;
+  }
+
+  measure: returned_at{
+    type: median
+    sql:  ${returned_time}/86400.0 ;;
+    value_format: "hh:mm:ss"
   }
 
   dimension: sale_price {

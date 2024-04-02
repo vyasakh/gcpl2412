@@ -1,6 +1,6 @@
 ---
-- dashboard: filter_test
-  title: filter
+- dashboard: vtest
+  title: vtest
   layout: newspaper
   preferred_viewer: dashboards-next
   description: ''
@@ -31,8 +31,8 @@
       Created Date: orders.created_date
     row: 0
     col: 0
-    width: 30
-    height: 15
+    width: 24
+    height: 12
   - title: new 2
     name: new 2
     model: 0_vysakh_thelook

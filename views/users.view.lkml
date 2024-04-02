@@ -86,18 +86,24 @@ view: users {
     drill_fields: [detail*]
   }
 
+  measure: times {
+    type: number
+    sql: 5/ 86400 ;;
+    value_format: "[hh]:mm:ss"
+
+  }
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
-	id,
-	first_name,
-	last_name,
-	events.count,
-	orders.count,
-	saralooker.count,
-	sindhu.count,
-	user_data.count
-	]
+  id,
+  first_name,
+  last_name,
+  events.count,
+  orders.count,
+  saralooker.count,
+  sindhu.count,
+  user_data.count
+  ]
   }
 
 }

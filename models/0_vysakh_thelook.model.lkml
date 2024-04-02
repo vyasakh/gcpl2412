@@ -4,22 +4,11 @@ connection: "thelook"
 # include all the views
 include: "/views/**/*.view.lkml"
 
-# Datagroups define a caching policy for an Explore. To learn more,
-# use the Quick Help panel on the right to see documentation.
-
-datagroup: 0_vysakh_thelook_default_datagroup {
-  # sql_trigger: SELECT MAX(id) FROM etl_log;;
-  max_cache_age: "1 hour"
+datagroup: order_items_datagroup {
+  sql_trigger: select max(id) from order_items ;;
+  max_cache_age: "24 hours"
 }
-
-persist_with: 0_vysakh_thelook_default_datagroup
-
-# Explores allow you to join together different views (database tables) based on the
-# relationships between fields. By joining a view into an Explore, you make those
-# fields available to users for data analysis.
-# Explores should be purpose-built for specific use cases.
-
-# To see the Explore you’re building, navigate to the Explore menu and select an Explore under "0 Vysakh Thelook"
+persist_with: order_items_datagroup
 
 explore: billion_orders {
   join: orders {
@@ -27,16 +16,6 @@ explore: billion_orders {
     sql_on: ${billion_orders.order_id} = ${orders.id} ;;
     relationship: many_to_one
   }
-  sql_always_where: {% if ${orders.user_id} ==  _user_attributes['uservzeid']
-    or '1912546723,8549151046' contains _user_attributes['uservzeid']  %}
-
-1=1
-{% else %}
-${orders.user_id}  like %{{ _user_attributes['uservzeid'] }}%
-
-
- {% endif %} ;;
-
 
   join: users {
     type: left_outer
@@ -128,7 +107,8 @@ explore: inventory_items {
     sql_on: ${inventory_items.product_id} = ${products.id} ;;
     relationship: many_to_one
   }
-}
+  }
+
 
 explore: orders {
   join: users {
@@ -139,6 +119,7 @@ explore: orders {
 }
 
 explore: order_items {
+  persist_with: order_items_datagroup
   join: orders {
     type: left_outer
     sql_on: ${order_items.order_id} = ${orders.id} ;;

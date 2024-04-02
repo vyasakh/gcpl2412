@@ -8,7 +8,7 @@
 
   elements:
    - name: vinod_lookml
-     title: Untitled Visualization
+     title: vinod_lookml_dashboard
   model: looker_project
   explore: order_items
   type: single_value
@@ -62,4 +62,3 @@
   defaults_version: 1
   hidden_pivots: {}
   y_axes: []
-

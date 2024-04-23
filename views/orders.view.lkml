@@ -141,6 +141,8 @@ view: orders {
   }
   measure: count {
     type: count
+    html: <div class="vis">      <div class="vis-single-value" style="line-height: 1;font-size: 17px; text-align:center;color:blue;" >      </div>    </div>;;
+
     drill_fields: [detail*]
   }
 

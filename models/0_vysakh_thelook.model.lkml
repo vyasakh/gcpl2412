@@ -3,23 +3,20 @@ connection: "thelook"
 
 # include all the views
 include: "/views/**/*.view.lkml"
+<<<<<<< HEAD
 
-# Datagroups define a caching policy for an Explore. To learn more,
-# use the Quick Help panel on the right to see documentation.
+datagroup: order_items_datagroup {
+  sql_trigger: select max(id) from order_items ;;
+  max_cache_age: "24 hours"
+=======
+include: "/test_count_.dashboard.lookml"
 
 datagroup: 0_vysakh_thelook_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
   max_cache_age: "1 hour"
+>>>>>>> branch 'master' of https://github.com/vyasakh/gcpl240
 }
-
-persist_with: 0_vysakh_thelook_default_datagroup
-
-# Explores allow you to join together different views (database tables) based on the
-# relationships between fields. By joining a view into an Explore, you make those
-# fields available to users for data analysis.
-# Explores should be purpose-built for specific use cases.
-
-# To see the Explore you’re building, navigate to the Explore menu and select an Explore under "0 Vysakh Thelook"
+persist_with: order_items_datagroup
 
 explore: billion_orders {
   join: orders {
@@ -57,19 +54,7 @@ explore: events {
   }
 }
 
-explore: fakeorders {
-  join: orders {
-    type: left_outer
-    sql_on: ${fakeorders.order_id} = ${orders.id} ;;
-    relationship: many_to_one
-  }
 
-  join: users {
-    type: left_outer
-    sql_on: ${orders.user_id} = ${users.id} ;;
-    relationship: many_to_one
-  }
-}
 
 explore: fatal_error_user_derived_base {}
 
@@ -110,12 +95,16 @@ explore: incremental_pdts_test {}
 explore: ints {}
 
 explore: inventory_items {
+  always_filter: {
+    filters: [inventory_items.created_date: "2 years ago"]
+  }
   join: products {
     type: left_outer
     sql_on: ${inventory_items.product_id} = ${products.id} ;;
     relationship: many_to_one
   }
-}
+  }
+
 
 explore: orders {
   join: users {
@@ -126,6 +115,7 @@ explore: orders {
 }
 
 explore: order_items {
+  persist_with: order_items_datagroup
   join: orders {
     type: left_outer
     sql_on: ${order_items.order_id} = ${orders.id} ;;
@@ -166,8 +156,9 @@ explore: order_items_vijaya {
 
   join: users {
     type: left_outer
-    sql_on: ${orders.user_id} = ${users.id} ;;
     relationship: many_to_one
+    sql_on: ${orders.user_id} = ${users.id} and ${orders.created_month} = ${users.created_month} ;;
+    # relationship: many_to_one
   }
 
   join: products {

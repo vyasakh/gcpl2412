@@ -23,16 +23,28 @@ view: order_items {
     sql: ${TABLE}.inventory_item_id ;;
   }
 
+  parameter: exclude_royalties {
+    view_label: " Revenue metrics"
+    type: number
+    #default_value: "1"
+    description: "Filter to include/exclude royalties, default is NO"
+    label: "Exclude royalties?"
+    allowed_value: {
+      label: "Include royalties"
+      value: "1"
+    }
+    allowed_value: {
+      label: "Exclude royalties"
+      value: "0"
+    }
+  }
   dimension: order_id {
     type: number
     # hidden: yes
     sql: ${TABLE}.order_id ;;
   }
 
-  dimension: phone {
-    type: string
-    sql: ${TABLE}.phone ;;
-  }
+
 
   dimension: phones {
     type: string
@@ -45,6 +57,12 @@ view: order_items {
     type: time
     timeframes: [raw, time, date, week, month, quarter, year]
     sql: ${TABLE}.returned_at ;;
+  }
+
+  measure: returned_at{
+    type: median
+    sql:  ${returned_time}/86400.0 ;;
+    value_format: "hh:mm:ss"
   }
 
   dimension: sale_price {

@@ -25,6 +25,15 @@ view: products {
   dimension: category {
     type: string
     sql: ${TABLE}.category ;;
+    html:
+    {% if value == 'Accesories' %}
+    <p style="color: white; background-color: blue;">{{ value }}</p>
+    {% elsif value == 'Maternity' %}
+    <p style="color: black; background-color: orange;">{{ value }}</p>
+    {% else %}
+    <p style="color: white; background-color: green;">{{ value }}</p>
+    {% endif %}
+    ;;
   }
 
   dimension: department {

@@ -3,20 +3,16 @@ connection: "thelook"
 
 # include all the views
 include: "/views/**/*.view.lkml"
-<<<<<<< HEAD
 
-datagroup: order_items_datagroup {
-  sql_trigger: select max(id) from order_items ;;
-  max_cache_age: "24 hours"
-=======
+include: "/viets.view.lkml"
+
 include: "/test_count_.dashboard.lookml"
 
 datagroup: 0_vysakh_thelook_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
   max_cache_age: "1 hour"
->>>>>>> branch 'master' of https://github.com/vyasakh/gcpl240
 }
-persist_with: order_items_datagroup
+#persist_with: order_items_datagroup
 
 explore: billion_orders {
   join: orders {
@@ -35,6 +31,8 @@ explore: billion_orders {
 # To create more sophisticated Explores that involve multiple views, you can use the join parameter.
 # Typically, join parameters require that you define the join type, join relationship, and a sql_on clause.
 # Each joined view also needs to define a primary key.
+
+explore: viets {}
 
 explore: connection_reg_r3 {}
 
@@ -94,6 +92,8 @@ explore: incremental_pdts_test {}
 
 explore: ints {}
 
+
+
 explore: inventory_items {
   always_filter: {
     filters: [inventory_items.created_date: "2 years ago"]
@@ -115,7 +115,7 @@ explore: orders {
 }
 
 explore: order_items {
-  persist_with: order_items_datagroup
+  #persist_with: order_items_datagroup
   join: orders {
     type: left_outer
     sql_on: ${order_items.order_id} = ${orders.id} ;;

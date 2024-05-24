@@ -21,19 +21,19 @@ persist_with: 0_vysakh_thelook_default_datagroup
 
 # To see the Explore you’re building, navigate to the Explore menu and select an Explore under "0 Vysakh Thelook"
 
-explore: billion_orders {
-  join: orders {
-    type: left_outer
-    sql_on: ${billion_orders.order_id} = ${orders.id} ;;
-    relationship: many_to_one
-  }
+# explore: billion_orders {
+#   join: orders {
+#     type: left_outer
+#     sql_on: ${billion_orders.order_id} = ${orders.id} ;;
+#     relationship: many_to_one
+#   }
 
-  join: users {
-    type: left_outer
-    sql_on: ${orders.user_id} = ${users.id} ;;
-    relationship: many_to_one
-  }
-}
+#   join: users {
+#     type: left_outer
+#     sql_on: ${orders.user_id} = ${users.id} ;;
+#     relationship: many_to_one
+#   }
+# }
 
 # To create more sophisticated Explores that involve multiple views, you can use the join parameter.
 # Typically, join parameters require that you define the join type, join relationship, and a sql_on clause.
@@ -57,19 +57,19 @@ explore: events {
   }
 }
 
-explore: fakeorders {
-  join: orders {
-    type: left_outer
-    sql_on: ${fakeorders.order_id} = ${orders.id} ;;
-    relationship: many_to_one
-  }
+# explore: fakeorders {
+#   join: orders {
+#     type: left_outer
+#     sql_on: ${fakeorders.order_id} = ${orders.id} ;;
+#     relationship: many_to_one
+#   }
 
-  join: users {
-    type: left_outer
-    sql_on: ${orders.user_id} = ${users.id} ;;
-    relationship: many_to_one
-  }
-}
+#   join: users {
+#     type: left_outer
+#     sql_on: ${orders.user_id} = ${users.id} ;;
+#     relationship: many_to_one
+#   }
+# }
 
 explore: fatal_error_user_derived_base {}
 
@@ -77,33 +77,33 @@ explore: flights {}
 
 explore: human {}
 
-explore: hundred_million_orders {
-  join: orders {
-    type: left_outer
-    sql_on: ${hundred_million_orders.order_id} = ${orders.id} ;;
-    relationship: many_to_one
-  }
+# explore: hundred_million_orders {
+#   join: orders {
+#     type: left_outer
+#     sql_on: ${hundred_million_orders.order_id} = ${orders.id} ;;
+#     relationship: many_to_one
+#   }
 
-  join: users {
-    type: left_outer
-    sql_on: ${orders.user_id} = ${users.id} ;;
-    relationship: many_to_one
-  }
-}
+#   join: users {
+#     type: left_outer
+#     sql_on: ${orders.user_id} = ${users.id} ;;
+#     relationship: many_to_one
+#   }
+# }
 
-explore: hundred_million_orders_wide {
-  join: orders {
-    type: left_outer
-    sql_on: ${hundred_million_orders_wide.order_id} = ${orders.id} ;;
-    relationship: many_to_one
-  }
+# explore: hundred_million_orders_wide {
+#   join: orders {
+#     type: left_outer
+#     sql_on: ${hundred_million_orders_wide.order_id} = ${orders.id} ;;
+#     relationship: many_to_one
+#   }
 
-  join: users {
-    type: left_outer
-    sql_on: ${orders.user_id} = ${users.id} ;;
-    relationship: many_to_one
-  }
-}
+#   join: users {
+#     type: left_outer
+#     sql_on: ${orders.user_id} = ${users.id} ;;
+#     relationship: many_to_one
+#   }
+# }
 
 explore: incremental_pdts_test {}
 
@@ -117,13 +117,13 @@ explore: inventory_items {
   }
 }
 
-explore: orders {
-  join: users {
-    type: left_outer
-    sql_on: ${orders.user_id} = ${users.id} ;;
-    relationship: many_to_one
-  }
-}
+# explore: orders {
+#   join: users {
+#     type: left_outer
+#     sql_on: ${orders.user_id} = ${users.id} ;;
+#     relationship: many_to_one
+#   }
+# }
 
 explore: order_items {
   join: orders {
@@ -187,7 +187,11 @@ explore: persons {}
 
 explore: persons2 {}
 
-explore: products {}
+explore: faad_products {
+  view_name: products
+  from: orders
+  fields: [products.test*]
+}
 
 explore: salary {
   join: dept {
@@ -223,25 +227,26 @@ explore: sindhu {
 
 
 
-explore: ten_million_orders {
-  join: orders {
-    type: left_outer
-    sql_on: ${ten_million_orders.order_id} = ${orders.id} ;;
-    relationship: many_to_one
-  }
+# explore: ten_million_orders {
+#   join: orders {
+#     type: left_outer
+#     sql_on: ${ten_million_orders.order_id} = ${orders.id} ;;
+#     relationship: many_to_one
+#   }
 
-  join: users {
-    type: left_outer
-    sql_on: ${orders.user_id} = ${users.id} ;;
-    relationship: many_to_one
-  }
-}
+#   join: users {
+#     type: left_outer
+#     sql_on: ${orders.user_id} = ${users.id} ;;
+#     relationship: many_to_one
+#   }
+# }
 
 explore: test {}
 
 explore: test_space_in_column_name {}
 
-explore: users {}
+explore: users {
+}
 
 explore: user_data {
   join: users {
@@ -250,6 +255,7 @@ explore: user_data {
     relationship: many_to_one
   }
 }
+explore: products {}
 
 explore: vvimgsrc1onerroralert2ll {}
 

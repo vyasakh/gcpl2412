@@ -19,12 +19,16 @@ view: products {
 
   dimension: brand {
     type: string
-    sql: ${TABLE}.brand ;;
+    #sql: ${TABLE}.brand ;;
+
   }
+
+
 
   dimension: category {
     type: string
     sql: ${TABLE}.category ;;
+    drill_fields: [item_name]
   }
 
   dimension: department {
@@ -35,6 +39,7 @@ view: products {
   dimension: item_name {
     type: string
     sql: ${TABLE}.item_name ;;
+    drill_fields: [department]
   }
 
   dimension: rank {
@@ -46,17 +51,30 @@ view: products {
     type: number
     sql: ${TABLE}.retail_price ;;
   }
-
+# measure: retail_round {
+#   type: number
+#   sql: round(${retail_price},2) ;;
+# }
   # A measure is a field that uses a SQL aggregate function. Here are defined sum and average
   # measures for this dimension, but you can also add measures of many different aggregates.
   # Click on the type parameter to see all the options in the Quick Help panel on the right.
 
   measure: total_retail_price {
     type: sum
-    sql: ${retail_price} ;;  }
+    sql: ${retail_price} ;;
+  #  html:<p>{{rendered_value}} Future Available Nights </p> ;;
+    }
+
+    measure:retail_round{
+      type: number
+      sql: round(${average_retail_price},2) ;;
+
+    }
+
   measure: average_retail_price {
     type: average
-    sql: ${retail_price} ;;  }
+    sql: ${retail_price} ;;
+    }
 
   dimension: sku {
     type: string
@@ -65,5 +83,9 @@ view: products {
   measure: count {
     type: count
     drill_fields: [id, item_name, inventory_items.count]
+  }
+
+  set: test {
+    fields: [item_name,rank,retail_price,category,department,average_retail_price]
   }
 }

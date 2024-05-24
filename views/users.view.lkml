@@ -36,12 +36,23 @@ view: users {
   dimension: city {
     type: string
     sql: ${TABLE}.city ;;
+    map_layer_name: countries
+
   }
 
   dimension: country {
     type: string
     map_layer_name: countries
+    suggest_dimension: city
+    #suggest_explore: order_items
     sql: ${TABLE}.country ;;
+    drill_fields: [coordenadas_cadastral,city]
+
+  }
+  dimension: coordenadas_cadastral {
+    type: location
+    sql_latitude: 80;;
+    sql_longitude: ${zip};;
   }
   # Dates and timestamps can be represented in Looker using a dimension group of type: time.
   # Looker converts dates and timestamps to the specified timeframes within the dimension group.
@@ -89,15 +100,15 @@ view: users {
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
-	id,
-	first_name,
-	last_name,
-	events.count,
-	orders.count,
-	saralooker.count,
-	sindhu.count,
-	user_data.count
-	]
+  id,
+  first_name,
+  last_name,
+  events.count,
+  orders.count,
+  saralooker.count,
+  sindhu.count,
+  user_data.count
+  ]
   }
 
 }

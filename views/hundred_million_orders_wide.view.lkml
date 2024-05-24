@@ -17,12 +17,16 @@ view: hundred_million_orders_wide {
   }
 
   dimension: order_id {
+    label: "Has the User granted the Marketing Consent?"
+
     type: number
     # hidden: yes
     sql: ${TABLE}.order_id ;;
   }
 
   dimension: order_price {
+    label: "Has the User agreed to the Terms of Service (Free)?"
+
     type: number
     sql: ${TABLE}.order_price ;;
   }

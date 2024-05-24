@@ -17,6 +17,8 @@ view: orders {
   # Looker converts dates and timestamps to the specified timeframes within the dimension group.
 
   dimension_group: created {
+    label: "{% if _filters['created_week'] == ''%}'default'{% else %}'Revenue'{{_filters['created_week']}}{% endif %}"
+
     type: time
     timeframes: [raw, time, date, week, month, quarter, year, day_of_week]
     sql: ${TABLE}.created_at ;;
@@ -24,12 +26,22 @@ view: orders {
     # Here's what a typical dimension looks like in LookML.
     # A dimension is a groupable field that can be used to filter query results.
     # This dimension will be called "Status" in Explore.
-
+dimension: Today_date {
+  type: date
+  sql: CURRENT_DATE() ;;
+}
   dimension: status {
     type: string
-    sql: ${TABLE}.status ;;
+   sql: ${TABLE}.status ;;
+    #suggest_dimension: users.state
+    #suggest_explore: users
   }
-
+dimension: brand {
+  type: string
+  sql: ${products.brand} ;;
+ suggest_explore: faad_products
+  suggest_dimension: products.brand
+}
   dimension: user_id {
     type: number
     # hidden: yes
@@ -40,9 +52,29 @@ view: orders {
     drill_fields: [detail*]
   }
 
+  measure: new {
+
+    type: number
+
+    sql:CASE WHEN ${id} < 4
+
+            THEN 0
+
+      WHEN ${id}=24087
+
+      THEN -1
+
+      ELSE 2
+
+      END;;
+
+    value_format: "#,##0"
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
+
   id,
   users.id,
   users.first_name,

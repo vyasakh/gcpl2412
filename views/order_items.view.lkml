@@ -66,6 +66,12 @@ view: order_items {
   dimension: sale_price {
     type: number
     sql: ${TABLE}.sale_price ;;
+    #value_format: "$0"
+  }
+  dimension: sale_pricetest {
+    type: number
+    sql: ${TABLE}.sale_price ;;
+    value_format: "$0"
   }
 
   # A measure is a field that uses a SQL aggregate function. Here are defined sum and average
@@ -81,5 +87,10 @@ view: order_items {
   measure: count {
     type: count
     drill_fields: [id, orders.id, inventory_items.id]
+  }
+  measure: roundoff_test {
+    type: average
+    value_format_name: decimal_1
+    sql: ${sale_price} ;;
   }
 }

@@ -22,14 +22,18 @@ view: orders {
     timeframes: [raw, time, date, week, month, quarter, fiscal_year, day_of_week]
 
     sql: ${TABLE}.created_at ;;
+
   }
-    # Here's what a typical dimension looks like in LookML.
-    # A dimension is a groupable field that can be used to filter query results.
-    # This dimension will be called "Status" in Explore.
+  dimension: datetonumbers {
+  type: number
+  sql: date_format(${created_date},'%Y/%m/%d');;
+  }
+
 
   dimension: status {
     type: string
     sql: ${TABLE}.status ;;
+
   }
 
   dimension: user_id {
@@ -40,6 +44,7 @@ view: orders {
   measure: count {
     type: count
     drill_fields: [detail*]
+    ##html:<p style="color: grey; font-size:70px">▶ - </p>
   }
 
   # ----- Sets of fields for drilling ------

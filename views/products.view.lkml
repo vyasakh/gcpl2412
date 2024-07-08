@@ -27,6 +27,37 @@ view: products {
     sql: ${TABLE}.category ;;
   }
 
+
+
+
+  dimension: show_my_dimension_filter2 {
+
+    html: {% if _filters['category'] != "NULL" %} {{_filters['category']}}
+
+            {% else %} no filter value {% endif %};;
+
+    sql: 'this does nothing' ;;
+
+  }
+
+
+
+
+
+  dimension: filtersuggestion_test {
+    sql: 1 ;;
+
+    html:  {% if order_items.take_filter._rendered_value  > 0 %}
+          {{ order_items.take_filter._rendered_value}}
+        {% elsif order_items.take_filter._rendered_value < 0 %}
+          {{ order_items.take_filter._rendered_value }}
+        {% else %}
+          "Null"
+        {% endif %} ;;
+  }
+
+
+
   dimension: department {
     type: string
     sql: ${TABLE}.department ;;

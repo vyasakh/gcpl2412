@@ -20,7 +20,16 @@ view: users {
   dimension: age {
     type: number
     sql: ${TABLE}.age ;;
+
   }
+
+
+  dimension: Id1 {
+    type:  string
+    sql: ${TABLE}.id
+
+  }
+
 
   # A measure is a field that uses a SQL aggregate function. Here are defined sum and average
   # measures for this dimension, but you can also add measures of many different aggregates.
@@ -29,6 +38,11 @@ view: users {
   measure: total_age {
     type: sum
     sql: ${age} ;;  }
+
+
+
+
+
   measure: average_age {
     type: average
     sql: ${age} ;;  }
@@ -36,6 +50,7 @@ view: users {
   dimension: city {
     type: string
     sql: ${TABLE}.city ;;
+
   }
 
   dimension: country {
@@ -46,11 +61,13 @@ view: users {
   # Dates and timestamps can be represented in Looker using a dimension group of type: time.
   # Looker converts dates and timestamps to the specified timeframes within the dimension group.
 
-  dimension_group: created {
+  dimension_group: createdat {
     type: time
     timeframes: [raw, time, date, week, month, quarter, year]
     sql: ${TABLE}.created_at ;;
+
   }
+
 
   dimension: email {
     type: string
@@ -65,6 +82,7 @@ view: users {
   dimension: gender {
     type: string
     sql: ${TABLE}.gender ;;
+
   }
 
   dimension: last_name {
@@ -83,21 +101,35 @@ view: users {
   }
   measure: count {
     type: count
+
+
     drill_fields: [detail*]
+  }
+
+  measure: formatted_count {
+    type: count
+    html:
+    {% if value > 100 %}
+      <span style="color:darkgreen;">{{ rendered_value }}</span>
+    {% elsif value > 50 %}
+      <span style="color:goldenrod;">{{ rendered_value }}</span>
+    {% else %}
+      <span style="color:darkred;">{{ rendered_value }}</span>
+    {% endif %} ;;
   }
 
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
-	id,
-	first_name,
-	last_name,
-	events.count,
-	orders.count,
-	saralooker.count,
-	sindhu.count,
-	user_data.count
-	]
+  id,
+  first_name,
+  last_name,
+  events.count,
+  orders.count,
+  saralooker.count,
+  sindhu.count,
+  user_data.count
+  ]
   }
 
 }
